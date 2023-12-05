@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="5"
-  DTS:VersionGUID="{477BF5F3-86E1-4DD3-9C9A-683EB5A44FEC}">
+  DTS:VersionBuild="6"
+  DTS:VersionGUID="{51B724D1-F0DE-400B-B09D-21603A9C24A6}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -29,7 +29,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAyHpU8bdC1EWKsRvfQiEb/AAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABhv4q/T7hpW3/f+mE6S/Q83j9Payb4Xaql4y3u95LoKgAAAAAOgAAAAAIAACAAAACsAj1v4RQUb2U3Fq2LdsZnayYs0gxN+rIjcl9WLrIf0yAAAAA+ro0YQjEP7up4/eOMXwt1sAJNavu2bCJXFNCSrGJjSkAAAACKRqrSfETjsECYMJvay0dfASvLRs6HMqV8JrD+r85m4RPgBIbhtFereSnzKASPaJ6/G4VZy9leC5YvNSpSEL2z</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAyHpU8bdC1EWKsRvfQiEb/AAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABM1T4pbN6ZN58sxzy+iv2qsLkxkRLPNBJhNl8dbSPNIQAAAAAOgAAAAAIAACAAAAAdWC/sQoHqmip60YMNviVOfJecTCUvF06Fv55ijRzFNSAAAAD3NYS+xaG6WDHTUIZVNGsCWOLwjA2EOcu0aQIOptnXBUAAAACpegCKEPHTqIDlWZdjxczQ+kkvgUprlyGLb3MFOGUrANC6ewfuuQCKubOW+bRcyEqSo759/tQECVubYkGYSlYS</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -48,62 +48,7 @@
       <DTS:Variables />
       <DTS:ObjectData>
         <pipeline
-          version="1">
-          <components>
-            <component
-              refId="Package\MDG\Flat File Source"
-              componentClassID="Microsoft.FlatFileSource"
-              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
-              description="Flat File Source"
-              name="Flat File Source"
-              usesDispositions="true"
-              version="1">
-              <properties>
-                <property
-                  dataType="System.Boolean"
-                  description="Specifies whether zero-length columns are treated as null."
-                  name="RetainNulls">false</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
-                  name="FileNameColumnName"></property>
-              </properties>
-              <connections>
-                <connection
-                  refId="Package\MDG\Flat File Source.Connections[FlatFileConnection]"
-                  name="FlatFileConnection" />
-              </connections>
-              <outputs>
-                <output
-                  refId="Package\MDG\Flat File Source.Outputs[Flat File Source Output]"
-                  name="Flat File Source Output">
-                  <externalMetadataColumns
-                    isUsed="True" />
-                </output>
-                <output
-                  refId="Package\MDG\Flat File Source.Outputs[Flat File Source Error Output]"
-                  isErrorOut="true"
-                  name="Flat File Source Error Output">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\MDG\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\MDG\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\MDG\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\MDG\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-          </components>
-        </pipeline>
+          version="1" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -202,17 +147,5 @@
       </GraphLayout>
     </LayoutInfo>
   </Package>
-  <TaskHost
-    design-time-name="Package\MDG">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
-        <NodeLayout
-          Size="154.666666666667,42.6666666666667"
-          Id="Package\MDG\Flat File Source"
-          TopLeft="154.99999307096,82.7894727751985" />
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>
