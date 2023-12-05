@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="37"
-  DTS:VersionGUID="{9E67CA98-8487-4623-B6AC-C44A402F8C58}">
+  DTS:VersionBuild="40"
+  DTS:VersionGUID="{F1396EF4-C94E-4081-A713-6F21B31C80EA}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,7 +27,7 @@
           <DTS:Password
             DTS:Name="password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAyHpU8bdC1EWKsRvfQiEb/AAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACGOCQstaCIucMOkp9YtakJFyBcpyDuWYra5nb5ULLbtQAAAAAOgAAAAAIAACAAAABHoW+XzDg0pr4xiZMymdBWG7WlUiWwJuQl1gWa1aHIkSAAAADxo7EzyqkTHpiuEL2odn3OoyS2Rz9owqzwO1i1IeHwN0AAAABF5xQYnUfBFns0oyqCw3ccsiY91II7ztuO2nfHKfqYOK9QxY7xCfFLME2+gxWdipYayLhyGJyDwX3VOV2Rg4fY</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAyHpU8bdC1EWKsRvfQiEb/AAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAALqZoglfXD3FG2AsTmRNgT+ia/nvrHAyX1OlmC+FKtEwAAAAAOgAAAAAIAACAAAAD9OkJamACodIIKgP1VbN81AoR9Aq/G4bfohTKlgIyrPiAAAADQRMTjuEHpFnEA3MoOyPHSHEcbJ7xpOcMmVfBrvv/AEEAAAACnJS/m43uLjfycwrFLiSbshljXlM0BgO0g/TdZczfT4iYCGLzSM0lQGsKymwZZveKVMemzMTIvlPpvjKKWvMxA</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -775,6 +775,19 @@
                   refId="Package\MSG\ISN-MTN-MTV.Inputs[Derived Column Input]"
                   description="Input to the Derived Column Transformation"
                   name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\MSG\ISN-MTN-MTV.Inputs[Derived Column Input].Columns[NakitTRY]"
+                      cachedDataType="i8"
+                      cachedName="NakitTRY"
+                      cachedSortKeyPosition="-1"
+                      lineageId="Package\MSG\MJ-MS.Outputs[Merge Join Output].Columns[NakitTRY]" />
+                    <inputColumn
+                      refId="Package\MSG\ISN-MTN-MTV.Inputs[Derived Column Input].Columns[VarlikTRY]"
+                      cachedDataType="i8"
+                      cachedName="VarlikTRY"
+                      lineageId="Package\MSG\MJ-MS.Outputs[Merge Join Output].Columns[VarlikTRY]" />
+                  </inputColumns>
                   <externalMetadataColumns />
                 </input>
               </inputs>
@@ -785,6 +798,30 @@
                   exclusionGroup="1"
                   name="Derived Column Output"
                   synchronousInputId="Package\MSG\ISN-MTN-MTV.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\MSG\ISN-MTN-MTV.Outputs[Derived Column Output].Columns[ServetTRY]"
+                      dataType="i8"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\MSG\ISN-MTN-MTV.Outputs[Derived Column Output].Columns[ServetTRY]"
+                      name="ServetTRY"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[REPLACENULL](#{Package\MSG\MJ-MS.Outputs[Merge Join Output].Columns[NakitTRY]},0) + [REPLACENULL](#{Package\MSG\MJ-MS.Outputs[Merge Join Output].Columns[VarlikTRY]},0)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACENULL(NakitTRY,0) + REPLACENULL(VarlikTRY,0)</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
                   <externalMetadataColumns />
                 </output>
                 <output
@@ -1478,7 +1515,7 @@
                 <property
                   dataType="System.Int32"
                   description="Specifies the number of columns in the ordering key."
-                  name="NumKeyColumns">0</property>
+                  name="NumKeyColumns">1</property>
                 <property
                   dataType="System.Boolean"
                   description="Indicates whether the null values are treated as equal values."
@@ -1493,19 +1530,101 @@
                   refId="Package\MSG\MJ-MS.Inputs[Merge Join Left Input]"
                   hasSideEffects="true"
                   name="Merge Join Left Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\MSG\MJ-MS.Inputs[Merge Join Left Input].Columns[NakitTRY]"
+                      cachedDataType="i8"
+                      cachedName="NakitTRY"
+                      cachedSortKeyPosition="-1"
+                      lineageId="Package\MSG\SortMTN.Outputs[Sort Output].Columns[NakitTRY]" />
+                    <inputColumn
+                      refId="Package\MSG\MJ-MS.Inputs[Merge Join Left Input].Columns[MusteriID]"
+                      cachedDataType="i4"
+                      cachedName="MusteriID"
+                      lineageId="Package\MSG\SortMTN.Outputs[Sort Output].Columns[MusteriID]" />
+                  </inputColumns>
                   <externalMetadataColumns />
                 </input>
                 <input
                   refId="Package\MSG\MJ-MS.Inputs[Merge Join Right Input]"
                   hasSideEffects="true"
                   name="Merge Join Right Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\MSG\MJ-MS.Inputs[Merge Join Right Input].Columns[VarlikTRY]"
+                      cachedDataType="i8"
+                      cachedName="VarlikTRY"
+                      cachedSortKeyPosition="-1"
+                      lineageId="Package\MSG\SortMTV.Outputs[Sort Output].Columns[VarlikTRY]" />
+                    <inputColumn
+                      refId="Package\MSG\MJ-MS.Inputs[Merge Join Right Input].Columns[MusteriID]"
+                      cachedDataType="i4"
+                      cachedName="MusteriID"
+                      lineageId="Package\MSG\SortMTV.Outputs[Sort Output].Columns[MusteriID]" />
+                  </inputColumns>
                   <externalMetadataColumns />
                 </input>
               </inputs>
               <outputs>
                 <output
                   refId="Package\MSG\MJ-MS.Outputs[Merge Join Output]"
+                  isSorted="true"
                   name="Merge Join Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\MSG\MJ-MS.Outputs[Merge Join Output].Columns[MusteriID]"
+                      dataType="i4"
+                      lineageId="Package\MSG\MJ-MS.Outputs[Merge Join Output].Columns[MusteriID]"
+                      name="MusteriID">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\MSG\MJ-MS.Inputs[Merge Join Left Input].Columns[MusteriID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\MSG\MJ-MS.Outputs[Merge Join Output].Columns[NakitTRY]"
+                      dataType="i8"
+                      lineageId="Package\MSG\MJ-MS.Outputs[Merge Join Output].Columns[NakitTRY]"
+                      name="NakitTRY"
+                      sortKeyPosition="-1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\MSG\MJ-MS.Inputs[Merge Join Left Input].Columns[NakitTRY]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\MSG\MJ-MS.Outputs[Merge Join Output].Columns[MusteriID (1)]"
+                      dataType="i4"
+                      lineageId="Package\MSG\MJ-MS.Outputs[Merge Join Output].Columns[MusteriID (1)]"
+                      name="MusteriID (1)">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\MSG\MJ-MS.Inputs[Merge Join Right Input].Columns[MusteriID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\MSG\MJ-MS.Outputs[Merge Join Output].Columns[VarlikTRY]"
+                      dataType="i8"
+                      lineageId="Package\MSG\MJ-MS.Outputs[Merge Join Output].Columns[VarlikTRY]"
+                      name="VarlikTRY">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\MSG\MJ-MS.Inputs[Merge Join Right Input].Columns[VarlikTRY]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
                   <externalMetadataColumns />
                 </output>
               </outputs>
@@ -2710,6 +2829,40 @@
                 <input
                   refId="Package\MSG\SortMTN.Inputs[Sort Input]"
                   name="Sort Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\MSG\SortMTN.Inputs[Sort Input].Columns[MusteriID]"
+                      cachedDataType="i4"
+                      cachedName="MusteriID"
+                      lineageId="Package\MSG\M-NakitTRY.Outputs[Aggregate Output 1].Columns[MusteriID]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\MSG\SortMTN.Inputs[Sort Input].Columns[NakitTRY]"
+                      cachedDataType="i8"
+                      cachedName="NakitTRY"
+                      lineageId="Package\MSG\M-NakitTRY.Outputs[Aggregate Output 1].Columns[NakitTRY]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">-1</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
                   <externalMetadataColumns />
                 </input>
               </inputs>
@@ -2718,6 +2871,35 @@
                   refId="Package\MSG\SortMTN.Outputs[Sort Output]"
                   isSorted="true"
                   name="Sort Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\MSG\SortMTN.Outputs[Sort Output].Columns[MusteriID]"
+                      dataType="i4"
+                      lineageId="Package\MSG\SortMTN.Outputs[Sort Output].Columns[MusteriID]"
+                      name="MusteriID">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\MSG\M-NakitTRY.Outputs[Aggregate Output 1].Columns[MusteriID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\MSG\SortMTN.Outputs[Sort Output].Columns[NakitTRY]"
+                      dataType="i8"
+                      lineageId="Package\MSG\SortMTN.Outputs[Sort Output].Columns[NakitTRY]"
+                      name="NakitTRY"
+                      sortKeyPosition="-1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\MSG\M-NakitTRY.Outputs[Aggregate Output 1].Columns[NakitTRY]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
                   <externalMetadataColumns />
                 </output>
               </outputs>
@@ -2744,6 +2926,40 @@
                 <input
                   refId="Package\MSG\SortMTV.Inputs[Sort Input]"
                   name="Sort Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\MSG\SortMTV.Inputs[Sort Input].Columns[MusteriID]"
+                      cachedDataType="i4"
+                      cachedName="MusteriID"
+                      lineageId="Package\MSG\M-VarlikTRY.Outputs[Aggregate Output 1].Columns[MusteriID]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\MSG\SortMTV.Inputs[Sort Input].Columns[VarlikTRY]"
+                      cachedDataType="i8"
+                      cachedName="VarlikTRY"
+                      lineageId="Package\MSG\M-VarlikTRY.Outputs[Aggregate Output 1].Columns[VarlikTRY]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">-1</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
                   <externalMetadataColumns />
                 </input>
               </inputs>
@@ -2752,6 +2968,35 @@
                   refId="Package\MSG\SortMTV.Outputs[Sort Output]"
                   isSorted="true"
                   name="Sort Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\MSG\SortMTV.Outputs[Sort Output].Columns[MusteriID]"
+                      dataType="i4"
+                      lineageId="Package\MSG\SortMTV.Outputs[Sort Output].Columns[MusteriID]"
+                      name="MusteriID">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\MSG\M-VarlikTRY.Outputs[Aggregate Output 1].Columns[MusteriID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\MSG\SortMTV.Outputs[Sort Output].Columns[VarlikTRY]"
+                      dataType="i8"
+                      lineageId="Package\MSG\SortMTV.Outputs[Sort Output].Columns[VarlikTRY]"
+                      name="VarlikTRY"
+                      sortKeyPosition="-1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\MSG\M-VarlikTRY.Outputs[Aggregate Output 1].Columns[VarlikTRY]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
                   <externalMetadataColumns />
                 </output>
               </outputs>
@@ -3077,10 +3322,20 @@
               name="Data Conversion Output"
               startId="Package\MSG\Converted1.Outputs[Data Conversion Output]" />
             <path
+              refId="Package\MSG.Paths[Derived Column Output4]"
+              endId="Package\MSG\MS-G.Inputs[ODBC Destination Input]"
+              name="Derived Column Output"
+              startId="Package\MSG\ISN-MTN-MTV.Outputs[Derived Column Output]" />
+            <path
               refId="Package\MSG.Paths[Derived Column Output3]"
               endId="Package\MSG\SortMTV.Inputs[Sort Input]"
               name="Derived Column Output"
               startId="Package\MSG\ISN-VarlikTRY.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\MSG.Paths[Derived Column Output2]"
+              endId="Package\MSG\SortMTN.Inputs[Sort Input]"
+              name="Derived Column Output"
+              startId="Package\MSG\ISN-NakitTRY.Outputs[Derived Column Output]" />
             <path
               refId="Package\MSG.Paths[Derived Column Output1]"
               endId="Package\MSG\M-VarlikTRY.Inputs[Aggregate Input 1]"
@@ -3092,11 +3347,6 @@
               name="Derived Column Output"
               startId="Package\MSG\NakitTRY.Outputs[Derived Column Output]" />
             <path
-              refId="Package\MSG.Paths[Derived Column Output2]"
-              endId="Package\MSG\SortMTN.Inputs[Sort Input]"
-              name="Derived Column Output"
-              startId="Package\MSG\ISN-NakitTRY.Outputs[Derived Column Output]" />
-            <path
               refId="Package\MSG.Paths[Merge Join Output1]"
               endId="Package\MSG\NakitTRY.Inputs[Derived Column Input]"
               name="Merge Join Output"
@@ -3107,10 +3357,10 @@
               name="Merge Join Output"
               startId="Package\MSG\MJ-MV-DT.Outputs[Merge Join Output]" />
             <path
-              refId="Package\MSG.Paths[ODBC Source Output]"
-              endId="Package\MSG\SortH.Inputs[Sort Input]"
-              name="ODBC Source Output"
-              startId="Package\MSG\HESAP.Outputs[ODBC Source Output]" />
+              refId="Package\MSG.Paths[Merge Join Output2]"
+              endId="Package\MSG\ISN-MTN-MTV.Inputs[Derived Column Input]"
+              name="Merge Join Output"
+              startId="Package\MSG\MJ-MS.Outputs[Merge Join Output]" />
             <path
               refId="Package\MSG.Paths[ODBC Source Output3]"
               endId="Package\MSG\Converted1.Inputs[Data Conversion Input]"
@@ -3127,15 +3377,10 @@
               name="ODBC Source Output"
               startId="Package\MSG\MUSTERI_VARLIK.Outputs[ODBC Source Output]" />
             <path
-              refId="Package\MSG.Paths[Sort Output1]"
-              endId="Package\MSG\MJ-MV-DT.Inputs[Merge Join Right Input]"
-              name="Sort Output"
-              startId="Package\MSG\SortDT.Outputs[Sort Output]" />
-            <path
-              refId="Package\MSG.Paths[Sort Output]"
-              endId="Package\MSG\MJ-MV-DT.Inputs[Merge Join Left Input]"
-              name="Sort Output"
-              startId="Package\MSG\SortMV.Outputs[Sort Output]" />
+              refId="Package\MSG.Paths[ODBC Source Output]"
+              endId="Package\MSG\SortH.Inputs[Sort Input]"
+              name="ODBC Source Output"
+              startId="Package\MSG\HESAP.Outputs[ODBC Source Output]" />
             <path
               refId="Package\MSG.Paths[Sort Output3]"
               endId="Package\MSG\MJ-H-DT.Inputs[Merge Join Right Input]"
@@ -3146,6 +3391,26 @@
               endId="Package\MSG\MJ-H-DT.Inputs[Merge Join Left Input]"
               name="Sort Output"
               startId="Package\MSG\SortH.Outputs[Sort Output]" />
+            <path
+              refId="Package\MSG.Paths[Sort Output1]"
+              endId="Package\MSG\MJ-MV-DT.Inputs[Merge Join Right Input]"
+              name="Sort Output"
+              startId="Package\MSG\SortDT.Outputs[Sort Output]" />
+            <path
+              refId="Package\MSG.Paths[Sort Output]"
+              endId="Package\MSG\MJ-MV-DT.Inputs[Merge Join Left Input]"
+              name="Sort Output"
+              startId="Package\MSG\SortMV.Outputs[Sort Output]" />
+            <path
+              refId="Package\MSG.Paths[Sort Output4]"
+              endId="Package\MSG\MJ-MS.Inputs[Merge Join Left Input]"
+              name="Sort Output"
+              startId="Package\MSG\SortMTN.Outputs[Sort Output]" />
+            <path
+              refId="Package\MSG.Paths[Sort Output5]"
+              endId="Package\MSG\MJ-MS.Inputs[Merge Join Right Input]"
+              name="Sort Output"
+              startId="Package\MSG\SortMTV.Outputs[Sort Output]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
@@ -4059,6 +4324,118 @@
                     Point3="11.9999992251398,31.9801135469567" />
                   <mssgle:LineSegment
                     End="11.9999992251398,48.4602270939134" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MSG.Paths[Sort Output4]"
+          TopLeft="694.166649798552,519.833322217067">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="105.333326538404,43.0000019967556"
+              Start="0,0"
+              End="97.8333265384043,43.0000019967556">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="48.6666632692022,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="48.6666632692022,0"
+                    Point2="52.6666632692022,0"
+                    Point3="52.6666632692022,4" />
+                  <mssgle:LineSegment
+                    End="52.6666632692022,39.0000019967556" />
+                  <mssgle:CubicBezierSegment
+                    Point1="52.6666632692022,39.0000019967556"
+                    Point2="52.6666632692022,43.0000019967556"
+                    Point3="56.6666632692022,43.0000019967556" />
+                  <mssgle:LineSegment
+                    End="97.8333265384043,43.0000019967556" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MSG.Paths[Sort Output5]"
+          TopLeft="1027.4999704361,508.166656414668">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-114.666660765807,54.6666677991549"
+              Start="0,0"
+              End="-107.166660765807,54.6666677991549">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-53.3333303829035,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-53.3333303829035,0"
+                    Point2="-57.3333303829035,0"
+                    Point3="-57.3333303829035,4" />
+                  <mssgle:LineSegment
+                    End="-57.3333303829035,50.6666677991549" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-57.3333303829035,50.6666677991549"
+                    Point2="-57.3333303829035,54.6666677991549"
+                    Point3="-61.3333303829035,54.6666677991549" />
+                  <mssgle:LineSegment
+                    End="-107.166660765807,54.6666677991549" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MSG.Paths[Merge Join Output2]"
+          TopLeft="858.999976530672,584.166657547156">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,53.3333339293798"
+              Start="0,0"
+              End="0,45.8333339293798">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,45.8333339293798" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MSG.Paths[Derived Column Output4]"
+          TopLeft="937.166643391054,656.416657070319">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="119.833325107893,0"
+              Start="0,0"
+              End="112.333325107893,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="112.333325107893,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
