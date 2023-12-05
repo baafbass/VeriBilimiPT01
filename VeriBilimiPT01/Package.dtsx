@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="50"
-  DTS:VersionGUID="{25C1DDC7-B9FF-48D1-AC98-3EEE4D78D849}">
+  DTS:VersionBuild="62"
+  DTS:VersionGUID="{F5D308B9-5A53-4032-9F93-FEBE75B2DBA3}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,7 +27,22 @@
           <DTS:Password
             DTS:Name="password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAyHpU8bdC1EWKsRvfQiEb/AAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADOC2lr/AZ1rVlMl3UIEzTofVsyU+tEzEoKxVhND8LiFQAAAAAOgAAAAAIAACAAAADEXkSIQkF1T6Bo1rBJ/Sz4dn+PSdAjquM/oPgPNlVH1iAAAAAGoblONUVVdsz7T1Umwyy4R6ZnFSMOsXWHbr7jNwtPBEAAAACOJTzF9JiptTEME23jw3byGy0MttWgBJ5o8Pr/82cr68Y9Xdtx0WbnhaTXxTPqA6zyMb06tDruWUbqvR24B85d</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAyHpU8bdC1EWKsRvfQiEb/AAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABF238qVauNvr25XUORZ5/Ok0CeGlOVReGU+RXYMdf0MAAAAAAOgAAAAAIAACAAAABpKNY1pt5PzIyt+ciZIi5dsVkL1jEMqOon+1RFqnh00CAAAACv1g4DMFEzPg3f9+NsFb0N4sosvjYkFGa1bidbzQjWA0AAAAB1WyIirC4+5QwTBiRZs0giq87nkun5TtAOqmYt3aLkIK95GITUH+TeqoJIhWRvKwmKQFKe03cvt5S94RtL75jC</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[localhost.pt01db.root1 1]"
+      DTS:CreationName="ADO.NET:System.Data.Odbc.OdbcConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      DTS:DTSID="{78657763-2D31-43EC-B467-A13EA1889C53}"
+      DTS:ObjectName="localhost.pt01db.root1 1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="server=localhost;uid=root;Dsn=mysqlConnector;database=pt01db;db=pt01db;no_schema=1;port=3306;user=root;">
+          <DTS:Password
+            DTS:Name="password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAyHpU8bdC1EWKsRvfQiEb/AAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABwcBEloagZfrDD+YDbILTvMDEoXAeuypZAH+HHcihplgAAAAAOgAAAAAIAACAAAACAPQ/ce32PdNdOPQgqe/k0w/T7X2MCn+y4ZRvJ8Ie+eyAAAABOZ+ImCXSBXzPmQ54IyFZ5xrZa2+FtAawxssbQhiQVuEAAAAD5ekvICqq1YoUKm6MWBLo+ZMgf5511aPk4P/+YYjV7Moz/jBjZli1TwdmJYAgfO9JhTjauAgrH2IJqS2ANVSch</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -46,7 +61,9 @@
       DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:ObjectData>
-        <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{EC7743CA-CBBD-4113-AAB4-90E67294B59D}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE MSBG&#xA;TRUNCATE TABLE MSG&#xA;TRUNCATE TABLE MTAMG" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -3094,7 +3111,7 @@
                   dataType="System.String"
                   description="The name of the table to be fetched."
                   expressionType="Notify"
-                  name="TableName"></property>
+                  name="TableName">msb-g</property>
                 <property
                   dataType="System.Int32"
                   description="Specify the number of rows fetched per batch."
@@ -3124,7 +3141,7 @@
                   dataType="System.Int32"
                   description="The method used for inserting data. Possible values are 'Batch' or 'Row by row'."
                   expressionType="Notify"
-                  name="InsertMethod">1</property>
+                  name="InsertMethod">0</property>
                 <property
                   dataType="System.Int32"
                   description="The ODBC C data type for binding numeric data."
@@ -3139,6 +3156,8 @@
               <connections>
                 <connection
                   refId="Package\MDG\MSB-G.Connections[ODBCConnection]"
+                  connectionManagerID="Package.ConnectionManagers[localhost.pt01db.root1]"
+                  connectionManagerRefId="Package.ConnectionManagers[localhost.pt01db.root1]"
                   description="The ODBC runtime connection used to access the database."
                   name="ODBCConnection" />
               </connections>
@@ -3150,8 +3169,292 @@
                   hasSideEffects="true"
                   name="ODBC Destination Input"
                   truncationRowDisposition="FailComponent">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].Columns[MusteriID]"
+                      cachedDataType="i4"
+                      cachedName="MusteriID"
+                      externalMetadataColumnId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[MusteriID]"
+                      lineageId="Package\MDG\MJ-MH-BS-I-S-B.Outputs[Merge Join Output].Columns[MusteriID]" />
+                    <inputColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].Columns[TCKimlikNo]"
+                      cachedDataType="i8"
+                      cachedName="TCKimlikNo"
+                      externalMetadataColumnId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[TCKimlikNo]"
+                      lineageId="Package\MDG\MJ-MH-BS-I-S-B.Outputs[Merge Join Output].Columns[TCKimlikNo]" />
+                    <inputColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].Columns[KategoriID]"
+                      cachedDataType="nText"
+                      cachedName="KategoriID"
+                      externalMetadataColumnId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[KategoriID]"
+                      lineageId="Package\MDG\MJ-MH-BS-I-S-B.Outputs[Merge Join Output].Columns[KategoriID]" />
+                    <inputColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].Columns[IlkAd]"
+                      cachedDataType="nText"
+                      cachedName="IlkAd"
+                      externalMetadataColumnId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[IlkAd]"
+                      lineageId="Package\MDG\MJ-MH-BS-I-S-B.Outputs[Merge Join Output].Columns[IlkAd]" />
+                    <inputColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].Columns[IkinciAd]"
+                      cachedDataType="nText"
+                      cachedName="IkinciAd"
+                      externalMetadataColumnId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[IkinciAd]"
+                      lineageId="Package\MDG\MJ-MH-BS-I-S-B.Outputs[Merge Join Output].Columns[IkinciAd]" />
+                    <inputColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].Columns[Soyad]"
+                      cachedDataType="nText"
+                      cachedName="Soyad"
+                      externalMetadataColumnId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[Soyad]"
+                      lineageId="Package\MDG\MJ-MH-BS-I-S-B.Outputs[Merge Join Output].Columns[Soyad]" />
+                    <inputColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].Columns[DTarihi]"
+                      cachedDataType="nText"
+                      cachedName="DTarihi"
+                      externalMetadataColumnId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[DTarihi]"
+                      lineageId="Package\MDG\MJ-MH-BS-I-S-B.Outputs[Merge Join Output].Columns[DTarihi]" />
+                    <inputColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].Columns[Cinsiyet]"
+                      cachedDataType="i4"
+                      cachedName="Cinsiyet"
+                      externalMetadataColumnId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[Cinsiyet]"
+                      lineageId="Package\MDG\MJ-MH-BS-I-S-B.Outputs[Merge Join Output].Columns[Cinsiyet]" />
+                    <inputColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].Columns[MedeniHal]"
+                      cachedDataType="i4"
+                      cachedName="MedeniHal"
+                      externalMetadataColumnId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[MedeniHal]"
+                      lineageId="Package\MDG\MJ-MH-BS-I-S-B.Outputs[Merge Join Output].Columns[MedeniHal]" />
+                    <inputColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].Columns[YasGrupID]"
+                      cachedDataType="i4"
+                      cachedName="YasGrupID"
+                      externalMetadataColumnId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[YasGrupID]"
+                      lineageId="Package\MDG\MJ-MH-BS-I-S-B.Outputs[Merge Join Output].Columns[YasGrupID]" />
+                    <inputColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].Columns[HesapNo]"
+                      cachedDataType="i4"
+                      cachedName="HesapNo"
+                      externalMetadataColumnId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[HesapNo]"
+                      lineageId="Package\MDG\MJ-MH-BS-I-S-B.Outputs[Merge Join Output].Columns[HesapNo]" />
+                    <inputColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].Columns[MusteriID (1)]"
+                      cachedDataType="i4"
+                      cachedName="MusteriID (1)"
+                      externalMetadataColumnId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[MusteriID (1)]"
+                      lineageId="Package\MDG\MJ-MH-BS-I-S-B.Outputs[Merge Join Output].Columns[MusteriID (1)]" />
+                    <inputColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].Columns[SubeID]"
+                      cachedDataType="i4"
+                      cachedName="SubeID"
+                      externalMetadataColumnId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[SubeID]"
+                      lineageId="Package\MDG\MJ-MH-BS-I-S-B.Outputs[Merge Join Output].Columns[SubeID]" />
+                    <inputColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].Columns[DovizID]"
+                      cachedDataType="nText"
+                      cachedName="DovizID"
+                      externalMetadataColumnId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[DovizID]"
+                      lineageId="Package\MDG\MJ-MH-BS-I-S-B.Outputs[Merge Join Output].Columns[DovizID]" />
+                    <inputColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].Columns[AcilmaTarihi]"
+                      cachedDataType="nText"
+                      cachedName="AcilmaTarihi"
+                      externalMetadataColumnId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[AcilmaTarihi]"
+                      lineageId="Package\MDG\MJ-MH-BS-I-S-B.Outputs[Merge Join Output].Columns[AcilmaTarihi]" />
+                    <inputColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].Columns[KapatmaTarihi]"
+                      cachedDataType="nText"
+                      cachedName="KapatmaTarihi"
+                      externalMetadataColumnId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[KapatmaTarihi]"
+                      lineageId="Package\MDG\MJ-MH-BS-I-S-B.Outputs[Merge Join Output].Columns[KapatmaTarihi]" />
+                    <inputColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].Columns[Meblag]"
+                      cachedDataType="i4"
+                      cachedName="Meblag"
+                      externalMetadataColumnId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[Meblag]"
+                      lineageId="Package\MDG\MJ-MH-BS-I-S-B.Outputs[Merge Join Output].Columns[Meblag]" />
+                    <inputColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].Columns[SubeID (1)]"
+                      cachedDataType="i4"
+                      cachedName="SubeID (1)"
+                      externalMetadataColumnId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[SubeID (1)]"
+                      lineageId="Package\MDG\MJ-MH-BS-I-S-B.Outputs[Merge Join Output].Columns[SubeID (1)]" />
+                    <inputColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].Columns[BankaID]"
+                      cachedDataType="i4"
+                      cachedName="BankaID"
+                      externalMetadataColumnId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[BankaID]"
+                      lineageId="Package\MDG\MJ-MH-BS-I-S-B.Outputs[Merge Join Output].Columns[BankaID]" />
+                    <inputColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].Columns[IlceID]"
+                      cachedDataType="i4"
+                      cachedName="IlceID"
+                      externalMetadataColumnId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[IlceID]"
+                      lineageId="Package\MDG\MJ-MH-BS-I-S-B.Outputs[Merge Join Output].Columns[IlceID]" />
+                    <inputColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].Columns[IlceID (1)]"
+                      cachedDataType="i4"
+                      cachedName="IlceID (1)"
+                      externalMetadataColumnId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[IlceID (1)]"
+                      lineageId="Package\MDG\MJ-MH-BS-I-S-B.Outputs[Merge Join Output].Columns[IlceID (1)]" />
+                    <inputColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].Columns[IlceAd]"
+                      cachedDataType="nText"
+                      cachedName="IlceAd"
+                      externalMetadataColumnId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[IlceAd]"
+                      lineageId="Package\MDG\MJ-MH-BS-I-S-B.Outputs[Merge Join Output].Columns[IlceAd]" />
+                    <inputColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].Columns[SehirID]"
+                      cachedDataType="i4"
+                      cachedName="SehirID"
+                      externalMetadataColumnId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[SehirID]"
+                      lineageId="Package\MDG\MJ-MH-BS-I-S-B.Outputs[Merge Join Output].Columns[SehirID]" />
+                    <inputColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].Columns[SehirID (1)]"
+                      cachedDataType="i4"
+                      cachedName="SehirID (1)"
+                      externalMetadataColumnId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[SehirID (1)]"
+                      lineageId="Package\MDG\MJ-MH-BS-I-S-B.Outputs[Merge Join Output].Columns[SehirID (1)]" />
+                    <inputColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].Columns[SehirAd]"
+                      cachedDataType="nText"
+                      cachedName="SehirAd"
+                      externalMetadataColumnId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[SehirAd]"
+                      lineageId="Package\MDG\MJ-MH-BS-I-S-B.Outputs[Merge Join Output].Columns[SehirAd]" />
+                    <inputColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].Columns[BolgeID]"
+                      cachedDataType="i4"
+                      cachedName="BolgeID"
+                      cachedSortKeyPosition="1"
+                      externalMetadataColumnId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[BolgeID]"
+                      lineageId="Package\MDG\MJ-MH-BS-I-S-B.Outputs[Merge Join Output].Columns[BolgeID]" />
+                    <inputColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].Columns[BolgeID (1)]"
+                      cachedDataType="i4"
+                      cachedName="BolgeID (1)"
+                      externalMetadataColumnId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[BolgeID (1)]"
+                      lineageId="Package\MDG\MJ-MH-BS-I-S-B.Outputs[Merge Join Output].Columns[BolgeID (1)]" />
+                    <inputColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].Columns[BolgeAd]"
+                      cachedDataType="nText"
+                      cachedName="BolgeAd"
+                      externalMetadataColumnId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[BolgeAd]"
+                      lineageId="Package\MDG\MJ-MH-BS-I-S-B.Outputs[Merge Join Output].Columns[BolgeAd]" />
+                  </inputColumns>
                   <externalMetadataColumns
-                    isUsed="True" />
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[MusteriID]"
+                      dataType="i4"
+                      name="MusteriID" />
+                    <externalMetadataColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[TCKimlikNo]"
+                      dataType="i8"
+                      name="TCKimlikNo" />
+                    <externalMetadataColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[KategoriID]"
+                      dataType="nText"
+                      name="KategoriID" />
+                    <externalMetadataColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[IlkAd]"
+                      dataType="nText"
+                      name="IlkAd" />
+                    <externalMetadataColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[IkinciAd]"
+                      dataType="nText"
+                      name="IkinciAd" />
+                    <externalMetadataColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[Soyad]"
+                      dataType="nText"
+                      name="Soyad" />
+                    <externalMetadataColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[DTarihi]"
+                      dataType="nText"
+                      name="DTarihi" />
+                    <externalMetadataColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[Cinsiyet]"
+                      dataType="i4"
+                      name="Cinsiyet" />
+                    <externalMetadataColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[MedeniHal]"
+                      dataType="i4"
+                      name="MedeniHal" />
+                    <externalMetadataColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[YasGrupID]"
+                      dataType="i4"
+                      name="YasGrupID" />
+                    <externalMetadataColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[HesapNo]"
+                      dataType="i4"
+                      name="HesapNo" />
+                    <externalMetadataColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[MusteriID (1)]"
+                      dataType="i4"
+                      name="MusteriID (1)" />
+                    <externalMetadataColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[SubeID]"
+                      dataType="i4"
+                      name="SubeID" />
+                    <externalMetadataColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[DovizID]"
+                      dataType="nText"
+                      name="DovizID" />
+                    <externalMetadataColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[AcilmaTarihi]"
+                      dataType="nText"
+                      name="AcilmaTarihi" />
+                    <externalMetadataColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[KapatmaTarihi]"
+                      dataType="nText"
+                      name="KapatmaTarihi" />
+                    <externalMetadataColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[Meblag]"
+                      dataType="i4"
+                      name="Meblag" />
+                    <externalMetadataColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[SubeID (1)]"
+                      dataType="i4"
+                      name="SubeID (1)" />
+                    <externalMetadataColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[BankaID]"
+                      dataType="i4"
+                      name="BankaID" />
+                    <externalMetadataColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[IlceID]"
+                      dataType="i4"
+                      name="IlceID" />
+                    <externalMetadataColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[IlceID (1)]"
+                      dataType="i4"
+                      name="IlceID (1)" />
+                    <externalMetadataColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[IlceAd]"
+                      dataType="nText"
+                      name="IlceAd" />
+                    <externalMetadataColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[SehirID]"
+                      dataType="i4"
+                      name="SehirID" />
+                    <externalMetadataColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[SehirID (1)]"
+                      dataType="i4"
+                      name="SehirID (1)" />
+                    <externalMetadataColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[SehirAd]"
+                      dataType="nText"
+                      name="SehirAd" />
+                    <externalMetadataColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[BolgeID]"
+                      dataType="i4"
+                      name="BolgeID" />
+                    <externalMetadataColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[BolgeID (1)]"
+                      dataType="i4"
+                      name="BolgeID (1)" />
+                    <externalMetadataColumn
+                      refId="Package\MDG\MSB-G.Inputs[ODBC Destination Input].ExternalColumns[BolgeAd]"
+                      dataType="nText"
+                      name="BolgeAd" />
+                  </externalMetadataColumns>
                 </input>
               </inputs>
               <outputs>
@@ -9221,95 +9524,128 @@
             </component>
             <component
               refId="Package\MSG\MS-G"
-              componentClassID="Microsoft.SSISODBCDst"
-              contactInfo="ODBC Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
-              description="ODBC Destination"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="Loads data into an ADO.NET-compliant database that uses a database table or view. Load data into a new or existing table. For example, use an ADO.NET provider for ODBC to load data into an ODBC destination.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Loads data into an ADO.NET-compliant database that uses a database table or view. Load data into a new or existing table. For example, use an ADO.NET provider for ODBC to load data into an ODBC destination."
               name="MS-G"
               usesDispositions="true"
-              version="1">
+              version="2">
               <properties>
                 <property
                   dataType="System.String"
-                  description="The name of the table to be fetched."
+                  description="The Destination database table name."
                   expressionType="Notify"
-                  name="TableName"></property>
+                  name="TableOrViewName"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">"ms-g"</property>
                 <property
                   dataType="System.Int32"
-                  description="Specify the number of rows fetched per batch."
+                  description="Specify the number of rows per batch. The default is 0 which uses the same size as SSIS internal buffer. "
                   expressionType="Notify"
-                  name="BatchSize">1000</property>
+                  name="BatchSize">0</property>
                 <property
                   dataType="System.Int32"
-                  description="The number of rows inserted under the same transaction."
+                  description="The number of seconds before a command times out. A value of 0 indicates infinite time-out. "
                   expressionType="Notify"
-                  name="TransactionSize">1000</property>
+                  name="CommandTimeout">30</property>
                 <property
-                  dataType="System.Int32"
-                  description="Determines the chunk size allocation for LOB columns"
+                  dataType="System.Boolean"
+                  description="Specifies whether to use the SqlBulkCopy interface to improve the performance of bulk insert operations. Only certain providers support this interface."
                   expressionType="Notify"
-                  name="LobChunkSize">32768</property>
+                  name="UseBulkInsertWhenPossible">true</property>
                 <property
-                  dataType="System.Int32"
-                  description="The number of seconds to wait for an SQL statement to execute before returning to the application."
-                  expressionType="Notify"
-                  name="StatementTimeout">0</property>
-                <property
-                  dataType="System.Int32"
-                  description="The code page to use when code page information is unavailable from the data source."
-                  expressionType="Notify"
-                  name="DefaultCodePage">1252</property>
-                <property
-                  dataType="System.Int32"
-                  description="The method used for inserting data. Possible values are 'Batch' or 'Row by row'."
-                  expressionType="Notify"
-                  name="InsertMethod">1</property>
-                <property
-                  dataType="System.Int32"
-                  description="The ODBC C data type for binding numeric data."
-                  expressionType="Notify"
-                  name="BindNumericAs">0</property>
-                <property
-                  dataType="System.Int32"
-                  description="Determines how the component would bind columns of (multi)-byte string types (i.e., SQL_CHAR, SQL_VARCHAR, SQL_LONGVARCHAR). The options are: Unicode (SQL_C_WCHAR) and ANSI (SQL_C_CHAR)."
-                  expressionType="Notify"
-                  name="BindCharColumnsAs">0</property>
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.ADONETDestination</property>
               </properties>
               <connections>
                 <connection
-                  refId="Package\MSG\MS-G.Connections[ODBCConnection]"
-                  description="The ODBC runtime connection used to access the database."
-                  name="ODBCConnection" />
+                  refId="Package\MSG\MS-G.Connections[IDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[localhost.pt01db.root1 1]"
+                  connectionManagerRefId="Package.ConnectionManagers[localhost.pt01db.root1 1]"
+                  description="Managed connection manager"
+                  name="IDbConnection" />
               </connections>
               <inputs>
                 <input
-                  refId="Package\MSG\MS-G.Inputs[ODBC Destination Input]"
-                  errorOrTruncationOperation="Insert"
+                  refId="Package\MSG\MS-G.Inputs[ADO NET Destination Input]"
                   errorRowDisposition="FailComponent"
                   hasSideEffects="true"
-                  name="ODBC Destination Input"
-                  truncationRowDisposition="FailComponent">
+                  name="ADO NET Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\MSG\MS-G.Inputs[ADO NET Destination Input].Columns[MusteriID]"
+                      cachedDataType="i4"
+                      cachedName="MusteriID"
+                      externalMetadataColumnId="Package\MSG\MS-G.Inputs[ADO NET Destination Input].ExternalColumns[MusteriID]"
+                      lineageId="Package\MSG\MJ-MS.Outputs[Merge Join Output].Columns[MusteriID]" />
+                    <inputColumn
+                      refId="Package\MSG\MS-G.Inputs[ADO NET Destination Input].Columns[NakitTRY]"
+                      cachedDataType="i8"
+                      cachedName="NakitTRY"
+                      cachedSortKeyPosition="-1"
+                      externalMetadataColumnId="Package\MSG\MS-G.Inputs[ADO NET Destination Input].ExternalColumns[NakitTRY]"
+                      lineageId="Package\MSG\MJ-MS.Outputs[Merge Join Output].Columns[NakitTRY]" />
+                    <inputColumn
+                      refId="Package\MSG\MS-G.Inputs[ADO NET Destination Input].Columns[MusteriID (1)]"
+                      cachedDataType="i4"
+                      cachedName="MusteriID (1)"
+                      externalMetadataColumnId="Package\MSG\MS-G.Inputs[ADO NET Destination Input].ExternalColumns[MusteriID (1)]"
+                      lineageId="Package\MSG\MJ-MS.Outputs[Merge Join Output].Columns[MusteriID (1)]" />
+                    <inputColumn
+                      refId="Package\MSG\MS-G.Inputs[ADO NET Destination Input].Columns[VarlikTRY]"
+                      cachedDataType="i8"
+                      cachedName="VarlikTRY"
+                      externalMetadataColumnId="Package\MSG\MS-G.Inputs[ADO NET Destination Input].ExternalColumns[VarlikTRY]"
+                      lineageId="Package\MSG\MJ-MS.Outputs[Merge Join Output].Columns[VarlikTRY]" />
+                    <inputColumn
+                      refId="Package\MSG\MS-G.Inputs[ADO NET Destination Input].Columns[ServetTRY]"
+                      cachedDataType="i8"
+                      cachedName="ServetTRY"
+                      externalMetadataColumnId="Package\MSG\MS-G.Inputs[ADO NET Destination Input].ExternalColumns[ServetTRY]"
+                      lineageId="Package\MSG\ISN-MTN-MTV.Outputs[Derived Column Output].Columns[ServetTRY]" />
+                  </inputColumns>
                   <externalMetadataColumns
-                    isUsed="True" />
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\MSG\MS-G.Inputs[ADO NET Destination Input].ExternalColumns[MusteriID]"
+                      dataType="i4"
+                      name="MusteriID" />
+                    <externalMetadataColumn
+                      refId="Package\MSG\MS-G.Inputs[ADO NET Destination Input].ExternalColumns[NakitTRY]"
+                      dataType="i8"
+                      name="NakitTRY" />
+                    <externalMetadataColumn
+                      refId="Package\MSG\MS-G.Inputs[ADO NET Destination Input].ExternalColumns[MusteriID (1)]"
+                      dataType="i4"
+                      name="MusteriID (1)" />
+                    <externalMetadataColumn
+                      refId="Package\MSG\MS-G.Inputs[ADO NET Destination Input].ExternalColumns[VarlikTRY]"
+                      dataType="i8"
+                      name="VarlikTRY" />
+                    <externalMetadataColumn
+                      refId="Package\MSG\MS-G.Inputs[ADO NET Destination Input].ExternalColumns[ServetTRY]"
+                      dataType="i8"
+                      name="ServetTRY" />
+                  </externalMetadataColumns>
                 </input>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\MSG\MS-G.Outputs[ODBC Destination Error Output]"
+                  refId="Package\MSG\MS-G.Outputs[ADO NET Destination Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
-                  name="ODBC Destination Error Output"
-                  synchronousInputId="Package\MSG\MS-G.Inputs[ODBC Destination Input]">
+                  name="ADO NET Destination Error Output"
+                  synchronousInputId="Package\MSG\MS-G.Inputs[ADO NET Destination Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\MSG\MS-G.Outputs[ODBC Destination Error Output].Columns[ErrorCode]"
+                      refId="Package\MSG\MS-G.Outputs[ADO NET Destination Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\MSG\MS-G.Outputs[ODBC Destination Error Output].Columns[ErrorCode]"
+                      lineageId="Package\MSG\MS-G.Outputs[ADO NET Destination Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\MSG\MS-G.Outputs[ODBC Destination Error Output].Columns[ErrorColumn]"
+                      refId="Package\MSG\MS-G.Outputs[ADO NET Destination Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\MSG\MS-G.Outputs[ODBC Destination Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\MSG\MS-G.Outputs[ADO NET Destination Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -10675,7 +11011,7 @@
               startId="Package\MSG\Converted1.Outputs[Data Conversion Output]" />
             <path
               refId="Package\MSG.Paths[Derived Column Output4]"
-              endId="Package\MSG\MS-G.Inputs[ODBC Destination Input]"
+              endId="Package\MSG\MS-G.Inputs[ADO NET Destination Input]"
               name="Derived Column Output"
               startId="Package\MSG\ISN-MTN-MTV.Outputs[Derived Column Output]" />
             <path
@@ -10780,7 +11116,8 @@
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
-          SQLTask:Connection="{EC7743CA-CBBD-4113-AAB4-90E67294B59D}" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:Connection="{EC7743CA-CBBD-4113-AAB4-90E67294B59D}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE MSON" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -10795,7 +11132,884 @@
       <DTS:Variables />
       <DTS:ObjectData>
         <pipeline
-          version="1" />
+          version="1">
+          <components>
+            <component
+              refId="Package\SON\MDGS"
+              componentClassID="Microsoft.SSISODBCSrc"
+              contactInfo="ODBC Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="ODBC Source"
+              name="MDGS"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="The name of the table to be fetched."
+                  expressionType="Notify"
+                  name="TableName"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specify the number of rows fetched per batch."
+                  expressionType="Notify"
+                  name="BatchSize">1000</property>
+                <property
+                  dataType="System.Int32"
+                  description="Determines the chunk size allocation for LOB columns"
+                  expressionType="Notify"
+                  name="LobChunkSize">32768</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines how the component exposes CHAR columns. If False, CHAR columns are exposed as (multi-)byte strings (DT_STR), if True, CHAR columns are exposed as wide strings (DT_WSTR)"
+                  expressionType="Notify"
+                  name="ExposeCharColumnsAsUnicode">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds to wait for an SQL statement to execute before returning to the application."
+                  expressionType="Notify"
+                  name="StatementTimeout">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The code page to use when code page information is unavailable from the data source."
+                  expressionType="Notify"
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Int32"
+                  description="The method used for fetching data."
+                  expressionType="Notify"
+                  name="FetchMethod">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="The ODBC C data type for binding numeric data."
+                  expressionType="Notify"
+                  name="BindNumericAs">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Determines how the component would bind columns of (multi)-byte string types (i.e., SQL_CHAR, SQL_VARCHAR, SQL_LONGVARCHAR). The options are: Unicode (SQL_C_WCHAR) and ANSI (SQL_C_CHAR)."
+                  expressionType="Notify"
+                  name="BindCharColumnsAs">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The mode used to access the database."
+                  expressionType="Notify"
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\SON\MDGS.Connections[ODBCConnection]"
+                  description="The ODBC runtime connection used to access the database."
+                  name="ODBCConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\SON\MDGS.Outputs[ODBC Source Output]"
+                  errorRowDisposition="FailComponent"
+                  name="ODBC Source Output"
+                  truncationRowDisposition="FailComponent">
+                  <externalMetadataColumns
+                    isUsed="True" />
+                </output>
+                <output
+                  refId="Package\SON\MDGS.Outputs[ODBC Source Error Output]"
+                  isErrorOut="true"
+                  name="ODBC Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\SON\MDGS.Outputs[ODBC Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\SON\MDGS.Outputs[ODBC Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\SON\MDGS.Outputs[ODBC Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\SON\MDGS.Outputs[ODBC Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\SON\Merge Join"
+              componentClassID="Microsoft.MergeJoin"
+              contactInfo="Merge Join;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Combine two sorted data flows into one using the FULL, LEFT, or INNER join. We recommend this transformation when data flows can be sorted at their sources."
+              name="Merge Join"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of join to perform."
+                  name="JoinType"
+                  typeConverter="JoinType">2</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the number of columns in the ordering key."
+                  name="NumKeyColumns">0</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the null values are treated as equal values."
+                  name="TreatNullsAsEqual">true</property>
+                <property
+                  dataType="System.Int32"
+                  description="Indicates the requested maximum buffers per input before blocking."
+                  name="MaxBuffersPerInput">5</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\SON\Merge Join.Inputs[Merge Join Left Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Left Input">
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\SON\Merge Join.Inputs[Merge Join Right Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Right Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\SON\Merge Join.Outputs[Merge Join Output]"
+                  name="Merge Join Output">
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\SON\MJ-MALL"
+              componentClassID="Microsoft.MergeJoin"
+              contactInfo="Merge Join;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Combine two sorted data flows into one using the FULL, LEFT, or INNER join. We recommend this transformation when data flows can be sorted at their sources."
+              name="MJ-MALL"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of join to perform."
+                  name="JoinType"
+                  typeConverter="JoinType">2</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the number of columns in the ordering key."
+                  name="NumKeyColumns">0</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the null values are treated as equal values."
+                  name="TreatNullsAsEqual">true</property>
+                <property
+                  dataType="System.Int32"
+                  description="Indicates the requested maximum buffers per input before blocking."
+                  name="MaxBuffersPerInput">5</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\SON\MJ-MALL.Inputs[Merge Join Left Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Left Input">
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\SON\MJ-MALL.Inputs[Merge Join Right Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Right Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\SON\MJ-MALL.Outputs[Merge Join Output]"
+                  name="Merge Join Output">
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\SON\MSGS"
+              componentClassID="Microsoft.SSISODBCSrc"
+              contactInfo="ODBC Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="ODBC Source"
+              name="MSGS"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="The name of the table to be fetched."
+                  expressionType="Notify"
+                  name="TableName"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specify the number of rows fetched per batch."
+                  expressionType="Notify"
+                  name="BatchSize">1000</property>
+                <property
+                  dataType="System.Int32"
+                  description="Determines the chunk size allocation for LOB columns"
+                  expressionType="Notify"
+                  name="LobChunkSize">32768</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines how the component exposes CHAR columns. If False, CHAR columns are exposed as (multi-)byte strings (DT_STR), if True, CHAR columns are exposed as wide strings (DT_WSTR)"
+                  expressionType="Notify"
+                  name="ExposeCharColumnsAsUnicode">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds to wait for an SQL statement to execute before returning to the application."
+                  expressionType="Notify"
+                  name="StatementTimeout">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The code page to use when code page information is unavailable from the data source."
+                  expressionType="Notify"
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Int32"
+                  description="The method used for fetching data."
+                  expressionType="Notify"
+                  name="FetchMethod">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="The ODBC C data type for binding numeric data."
+                  expressionType="Notify"
+                  name="BindNumericAs">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Determines how the component would bind columns of (multi)-byte string types (i.e., SQL_CHAR, SQL_VARCHAR, SQL_LONGVARCHAR). The options are: Unicode (SQL_C_WCHAR) and ANSI (SQL_C_CHAR)."
+                  expressionType="Notify"
+                  name="BindCharColumnsAs">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The mode used to access the database."
+                  expressionType="Notify"
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\SON\MSGS.Connections[ODBCConnection]"
+                  description="The ODBC runtime connection used to access the database."
+                  name="ODBCConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\SON\MSGS.Outputs[ODBC Source Output]"
+                  errorRowDisposition="FailComponent"
+                  name="ODBC Source Output"
+                  truncationRowDisposition="FailComponent">
+                  <externalMetadataColumns
+                    isUsed="True" />
+                </output>
+                <output
+                  refId="Package\SON\MSGS.Outputs[ODBC Source Error Output]"
+                  isErrorOut="true"
+                  name="ODBC Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\SON\MSGS.Outputs[ODBC Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\SON\MSGS.Outputs[ODBC Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\SON\MSGS.Outputs[ODBC Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\SON\MSGS.Outputs[ODBC Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\SON\MUS"
+              componentClassID="Microsoft.SSISODBCSrc"
+              contactInfo="ODBC Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="ODBC Source"
+              name="MUS"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="The name of the table to be fetched."
+                  expressionType="Notify"
+                  name="TableName">musteri</property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specify the number of rows fetched per batch."
+                  expressionType="Notify"
+                  name="BatchSize">1000</property>
+                <property
+                  dataType="System.Int32"
+                  description="Determines the chunk size allocation for LOB columns"
+                  expressionType="Notify"
+                  name="LobChunkSize">32768</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines how the component exposes CHAR columns. If False, CHAR columns are exposed as (multi-)byte strings (DT_STR), if True, CHAR columns are exposed as wide strings (DT_WSTR)"
+                  expressionType="Notify"
+                  name="ExposeCharColumnsAsUnicode">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds to wait for an SQL statement to execute before returning to the application."
+                  expressionType="Notify"
+                  name="StatementTimeout">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The code page to use when code page information is unavailable from the data source."
+                  expressionType="Notify"
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Int32"
+                  description="The method used for fetching data."
+                  expressionType="Notify"
+                  name="FetchMethod">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="The ODBC C data type for binding numeric data."
+                  expressionType="Notify"
+                  name="BindNumericAs">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Determines how the component would bind columns of (multi)-byte string types (i.e., SQL_CHAR, SQL_VARCHAR, SQL_LONGVARCHAR). The options are: Unicode (SQL_C_WCHAR) and ANSI (SQL_C_CHAR)."
+                  expressionType="Notify"
+                  name="BindCharColumnsAs">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The mode used to access the database."
+                  expressionType="Notify"
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\SON\MUS.Connections[ODBCConnection]"
+                  connectionManagerID="Package.ConnectionManagers[localhost.pt01db.root1]"
+                  connectionManagerRefId="Package.ConnectionManagers[localhost.pt01db.root1]"
+                  description="The ODBC runtime connection used to access the database."
+                  name="ODBCConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\SON\MUS.Outputs[ODBC Source Output]"
+                  errorRowDisposition="FailComponent"
+                  name="ODBC Source Output"
+                  truncationRowDisposition="FailComponent">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Output].Columns[MusteriID]"
+                      dataType="i4"
+                      externalMetadataColumnId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[MusteriID]"
+                      lineageId="Package\SON\MUS.Outputs[ODBC Source Output].Columns[MusteriID]"
+                      name="MusteriID" />
+                    <outputColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Output].Columns[TCKimlikNo]"
+                      dataType="i8"
+                      externalMetadataColumnId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[TCKimlikNo]"
+                      lineageId="Package\SON\MUS.Outputs[ODBC Source Output].Columns[TCKimlikNo]"
+                      name="TCKimlikNo" />
+                    <outputColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Output].Columns[KategoriID]"
+                      dataType="nText"
+                      externalMetadataColumnId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[KategoriID]"
+                      lineageId="Package\SON\MUS.Outputs[ODBC Source Output].Columns[KategoriID]"
+                      name="KategoriID" />
+                    <outputColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Output].Columns[IlkAd]"
+                      dataType="nText"
+                      externalMetadataColumnId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[IlkAd]"
+                      lineageId="Package\SON\MUS.Outputs[ODBC Source Output].Columns[IlkAd]"
+                      name="IlkAd" />
+                    <outputColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Output].Columns[IkinciAd]"
+                      dataType="nText"
+                      externalMetadataColumnId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[IkinciAd]"
+                      lineageId="Package\SON\MUS.Outputs[ODBC Source Output].Columns[IkinciAd]"
+                      name="IkinciAd" />
+                    <outputColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Output].Columns[Soyad]"
+                      dataType="nText"
+                      externalMetadataColumnId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[Soyad]"
+                      lineageId="Package\SON\MUS.Outputs[ODBC Source Output].Columns[Soyad]"
+                      name="Soyad" />
+                    <outputColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Output].Columns[DTarihi]"
+                      dataType="nText"
+                      externalMetadataColumnId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[DTarihi]"
+                      lineageId="Package\SON\MUS.Outputs[ODBC Source Output].Columns[DTarihi]"
+                      name="DTarihi" />
+                    <outputColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Output].Columns[Cinsiyet]"
+                      dataType="i4"
+                      externalMetadataColumnId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[Cinsiyet]"
+                      lineageId="Package\SON\MUS.Outputs[ODBC Source Output].Columns[Cinsiyet]"
+                      name="Cinsiyet" />
+                    <outputColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Output].Columns[MedeniHal]"
+                      dataType="i4"
+                      externalMetadataColumnId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[MedeniHal]"
+                      lineageId="Package\SON\MUS.Outputs[ODBC Source Output].Columns[MedeniHal]"
+                      name="MedeniHal" />
+                    <outputColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Output].Columns[YasGrupID]"
+                      dataType="i4"
+                      externalMetadataColumnId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[YasGrupID]"
+                      lineageId="Package\SON\MUS.Outputs[ODBC Source Output].Columns[YasGrupID]"
+                      name="YasGrupID" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[MusteriID]"
+                      dataType="i4"
+                      name="MusteriID" />
+                    <externalMetadataColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[TCKimlikNo]"
+                      dataType="i8"
+                      name="TCKimlikNo" />
+                    <externalMetadataColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[KategoriID]"
+                      dataType="nText"
+                      name="KategoriID" />
+                    <externalMetadataColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[IlkAd]"
+                      dataType="nText"
+                      name="IlkAd" />
+                    <externalMetadataColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[IkinciAd]"
+                      dataType="nText"
+                      name="IkinciAd" />
+                    <externalMetadataColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[Soyad]"
+                      dataType="nText"
+                      name="Soyad" />
+                    <externalMetadataColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[DTarihi]"
+                      dataType="nText"
+                      name="DTarihi" />
+                    <externalMetadataColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[Cinsiyet]"
+                      dataType="i4"
+                      name="Cinsiyet" />
+                    <externalMetadataColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[MedeniHal]"
+                      dataType="i4"
+                      name="MedeniHal" />
+                    <externalMetadataColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[YasGrupID]"
+                      dataType="i4"
+                      name="YasGrupID" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\SON\MUS.Outputs[ODBC Source Error Output]"
+                  isErrorOut="true"
+                  name="ODBC Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Error Output].Columns[MusteriID]"
+                      dataType="i4"
+                      externalMetadataColumnId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[MusteriID]"
+                      lineageId="Package\SON\MUS.Outputs[ODBC Source Error Output].Columns[MusteriID]"
+                      name="MusteriID" />
+                    <outputColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Error Output].Columns[TCKimlikNo]"
+                      dataType="i8"
+                      externalMetadataColumnId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[TCKimlikNo]"
+                      lineageId="Package\SON\MUS.Outputs[ODBC Source Error Output].Columns[TCKimlikNo]"
+                      name="TCKimlikNo" />
+                    <outputColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Error Output].Columns[KategoriID]"
+                      dataType="nText"
+                      externalMetadataColumnId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[KategoriID]"
+                      lineageId="Package\SON\MUS.Outputs[ODBC Source Error Output].Columns[KategoriID]"
+                      name="KategoriID" />
+                    <outputColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Error Output].Columns[IlkAd]"
+                      dataType="nText"
+                      externalMetadataColumnId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[IlkAd]"
+                      lineageId="Package\SON\MUS.Outputs[ODBC Source Error Output].Columns[IlkAd]"
+                      name="IlkAd" />
+                    <outputColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Error Output].Columns[IkinciAd]"
+                      dataType="nText"
+                      externalMetadataColumnId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[IkinciAd]"
+                      lineageId="Package\SON\MUS.Outputs[ODBC Source Error Output].Columns[IkinciAd]"
+                      name="IkinciAd" />
+                    <outputColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Error Output].Columns[Soyad]"
+                      dataType="nText"
+                      externalMetadataColumnId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[Soyad]"
+                      lineageId="Package\SON\MUS.Outputs[ODBC Source Error Output].Columns[Soyad]"
+                      name="Soyad" />
+                    <outputColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Error Output].Columns[DTarihi]"
+                      dataType="nText"
+                      externalMetadataColumnId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[DTarihi]"
+                      lineageId="Package\SON\MUS.Outputs[ODBC Source Error Output].Columns[DTarihi]"
+                      name="DTarihi" />
+                    <outputColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Error Output].Columns[Cinsiyet]"
+                      dataType="i4"
+                      externalMetadataColumnId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[Cinsiyet]"
+                      lineageId="Package\SON\MUS.Outputs[ODBC Source Error Output].Columns[Cinsiyet]"
+                      name="Cinsiyet" />
+                    <outputColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Error Output].Columns[MedeniHal]"
+                      dataType="i4"
+                      externalMetadataColumnId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[MedeniHal]"
+                      lineageId="Package\SON\MUS.Outputs[ODBC Source Error Output].Columns[MedeniHal]"
+                      name="MedeniHal" />
+                    <outputColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Error Output].Columns[YasGrupID]"
+                      dataType="i4"
+                      externalMetadataColumnId="Package\SON\MUS.Outputs[ODBC Source Output].ExternalColumns[YasGrupID]"
+                      lineageId="Package\SON\MUS.Outputs[ODBC Source Error Output].Columns[YasGrupID]"
+                      name="YasGrupID" />
+                    <outputColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\SON\MUS.Outputs[ODBC Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\SON\MUS.Outputs[ODBC Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\SON\MUS.Outputs[ODBC Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\SON\MUSTERI-SEHIR-BOLGE"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="MUSTERI-SEHIR-BOLGE"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\SON\MUSTERI-SEHIR-BOLGE.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\SON\MUSTERI-SEHIR-BOLGE.Outputs[Conditional Split Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Conditional Split Default Output"
+                  synchronousInputId="Package\SON\MUSTERI-SEHIR-BOLGE.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\SON\MUSTERI-SEHIR-BOLGE.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\SON\MUSTERI-SEHIR-BOLGE.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\SON\MUSTERI-SEHIR-BOLGE.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\SON\MUSTERI-SEHIR-BOLGE.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\SON\MUSTERI-SEHIR-BOLGE.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\SON\MUSTERI-SEHIR-BOLGE.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\SON\ODBC Destination"
+              componentClassID="Microsoft.SSISODBCDst"
+              contactInfo="ODBC Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="ODBC Destination"
+              name="ODBC Destination"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="The name of the table to be fetched."
+                  expressionType="Notify"
+                  name="TableName"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specify the number of rows fetched per batch."
+                  expressionType="Notify"
+                  name="BatchSize">1000</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of rows inserted under the same transaction."
+                  expressionType="Notify"
+                  name="TransactionSize">1000</property>
+                <property
+                  dataType="System.Int32"
+                  description="Determines the chunk size allocation for LOB columns"
+                  expressionType="Notify"
+                  name="LobChunkSize">32768</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds to wait for an SQL statement to execute before returning to the application."
+                  expressionType="Notify"
+                  name="StatementTimeout">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The code page to use when code page information is unavailable from the data source."
+                  expressionType="Notify"
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Int32"
+                  description="The method used for inserting data. Possible values are 'Batch' or 'Row by row'."
+                  expressionType="Notify"
+                  name="InsertMethod">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="The ODBC C data type for binding numeric data."
+                  expressionType="Notify"
+                  name="BindNumericAs">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Determines how the component would bind columns of (multi)-byte string types (i.e., SQL_CHAR, SQL_VARCHAR, SQL_LONGVARCHAR). The options are: Unicode (SQL_C_WCHAR) and ANSI (SQL_C_CHAR)."
+                  expressionType="Notify"
+                  name="BindCharColumnsAs">0</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\SON\ODBC Destination.Connections[ODBCConnection]"
+                  description="The ODBC runtime connection used to access the database."
+                  name="ODBCConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\SON\ODBC Destination.Inputs[ODBC Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="ODBC Destination Input"
+                  truncationRowDisposition="FailComponent">
+                  <externalMetadataColumns
+                    isUsed="True" />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\SON\ODBC Destination.Outputs[ODBC Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="ODBC Destination Error Output"
+                  synchronousInputId="Package\SON\ODBC Destination.Inputs[ODBC Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\SON\ODBC Destination.Outputs[ODBC Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\SON\ODBC Destination.Outputs[ODBC Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\SON\ODBC Destination.Outputs[ODBC Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\SON\ODBC Destination.Outputs[ODBC Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\SON\SortA"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+              name="SortA"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                  name="EliminateDuplicates">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the maximum number of threads to use for sorting."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\SON\SortA.Inputs[Sort Input]"
+                  name="Sort Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\SON\SortA.Outputs[Sort Output]"
+                  isSorted="true"
+                  name="Sort Output">
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\SON\SortMUS"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+              name="SortMUS"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                  name="EliminateDuplicates">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the maximum number of threads to use for sorting."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\SON\SortMUS.Inputs[Sort Input]"
+                  name="Sort Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\SON\SortMUS.Outputs[Sort Output]"
+                  isSorted="true"
+                  name="Sort Output">
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\SON\SortUM"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+              name="SortUM"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                  name="EliminateDuplicates">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the maximum number of threads to use for sorting."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\SON\SortUM.Inputs[Sort Input]"
+                  name="Sort Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\SON\SortUM.Outputs[Sort Output]"
+                  isSorted="true"
+                  name="Sort Output">
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\SON.Paths[Conditional Split Default Output]"
+              endId="Package\SON\SortUM.Inputs[Sort Input]"
+              name="Conditional Split Default Output"
+              startId="Package\SON\MUSTERI-SEHIR-BOLGE.Outputs[Conditional Split Default Output]" />
+            <path
+              refId="Package\SON.Paths[Merge Join Output]"
+              endId="Package\SON\Merge Join.Inputs[Merge Join Right Input]"
+              name="Merge Join Output"
+              startId="Package\SON\MJ-MALL.Outputs[Merge Join Output]" />
+            <path
+              refId="Package\SON.Paths[Merge Join Output1]"
+              endId="Package\SON\ODBC Destination.Inputs[ODBC Destination Input]"
+              name="Merge Join Output"
+              startId="Package\SON\Merge Join.Outputs[Merge Join Output]" />
+            <path
+              refId="Package\SON.Paths[ODBC Source Output]"
+              endId="Package\SON\SortA.Inputs[Sort Input]"
+              name="ODBC Source Output"
+              startId="Package\SON\MSGS.Outputs[ODBC Source Output]" />
+            <path
+              refId="Package\SON.Paths[ODBC Source Output1]"
+              endId="Package\SON\MUSTERI-SEHIR-BOLGE.Inputs[Conditional Split Input]"
+              name="ODBC Source Output"
+              startId="Package\SON\MDGS.Outputs[ODBC Source Output]" />
+            <path
+              refId="Package\SON.Paths[ODBC Source Output2]"
+              endId="Package\SON\SortMUS.Inputs[Sort Input]"
+              name="ODBC Source Output"
+              startId="Package\SON\MUS.Outputs[ODBC Source Output]" />
+            <path
+              refId="Package\SON.Paths[Sort Output]"
+              endId="Package\SON\MJ-MALL.Inputs[Merge Join Left Input]"
+              name="Sort Output"
+              startId="Package\SON\SortA.Outputs[Sort Output]" />
+            <path
+              refId="Package\SON.Paths[Sort Output1]"
+              endId="Package\SON\MJ-MALL.Inputs[Merge Join Right Input]"
+              name="Sort Output"
+              startId="Package\SON\SortUM.Outputs[Sort Output]" />
+            <path
+              refId="Package\SON.Paths[Sort Output2]"
+              endId="Package\SON\Merge Join.Inputs[Merge Join Left Input]"
+              name="Sort Output"
+              startId="Package\SON\SortMUS.Outputs[Sort Output]" />
+          </paths>
+        </pipeline>
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -10810,7 +12024,278 @@
       <DTS:Variables />
       <DTS:ObjectData>
         <pipeline
-          version="1" />
+          version="1">
+          <components>
+            <component
+              refId="Package\SONX\Conditional Split"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="Conditional Split"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\SONX\Conditional Split.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\SONX\Conditional Split.Outputs[Conditional Split Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Conditional Split Default Output"
+                  synchronousInputId="Package\SONX\Conditional Split.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\SONX\Conditional Split.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\SONX\Conditional Split.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\SONX\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\SONX\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\SONX\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\SONX\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\SONX\M-SON-LIST"
+              componentClassID="Microsoft.SSISODBCDst"
+              contactInfo="ODBC Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="ODBC Destination"
+              name="M-SON-LIST"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="The name of the table to be fetched."
+                  expressionType="Notify"
+                  name="TableName"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specify the number of rows fetched per batch."
+                  expressionType="Notify"
+                  name="BatchSize">1000</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of rows inserted under the same transaction."
+                  expressionType="Notify"
+                  name="TransactionSize">1000</property>
+                <property
+                  dataType="System.Int32"
+                  description="Determines the chunk size allocation for LOB columns"
+                  expressionType="Notify"
+                  name="LobChunkSize">32768</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds to wait for an SQL statement to execute before returning to the application."
+                  expressionType="Notify"
+                  name="StatementTimeout">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The code page to use when code page information is unavailable from the data source."
+                  expressionType="Notify"
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Int32"
+                  description="The method used for inserting data. Possible values are 'Batch' or 'Row by row'."
+                  expressionType="Notify"
+                  name="InsertMethod">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="The ODBC C data type for binding numeric data."
+                  expressionType="Notify"
+                  name="BindNumericAs">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Determines how the component would bind columns of (multi)-byte string types (i.e., SQL_CHAR, SQL_VARCHAR, SQL_LONGVARCHAR). The options are: Unicode (SQL_C_WCHAR) and ANSI (SQL_C_CHAR)."
+                  expressionType="Notify"
+                  name="BindCharColumnsAs">0</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\SONX\M-SON-LIST.Connections[ODBCConnection]"
+                  description="The ODBC runtime connection used to access the database."
+                  name="ODBCConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\SONX\M-SON-LIST.Inputs[ODBC Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="ODBC Destination Input"
+                  truncationRowDisposition="FailComponent">
+                  <externalMetadataColumns
+                    isUsed="True" />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\SONX\M-SON-LIST.Outputs[ODBC Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="ODBC Destination Error Output"
+                  synchronousInputId="Package\SONX\M-SON-LIST.Inputs[ODBC Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\SONX\M-SON-LIST.Outputs[ODBC Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\SONX\M-SON-LIST.Outputs[ODBC Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\SONX\M-SON-LIST.Outputs[ODBC Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\SONX\M-SON-LIST.Outputs[ODBC Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\SONX\MTAMGS"
+              componentClassID="Microsoft.SSISODBCSrc"
+              contactInfo="ODBC Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="ODBC Source"
+              name="MTAMGS"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="The name of the table to be fetched."
+                  expressionType="Notify"
+                  name="TableName"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specify the number of rows fetched per batch."
+                  expressionType="Notify"
+                  name="BatchSize">1000</property>
+                <property
+                  dataType="System.Int32"
+                  description="Determines the chunk size allocation for LOB columns"
+                  expressionType="Notify"
+                  name="LobChunkSize">32768</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines how the component exposes CHAR columns. If False, CHAR columns are exposed as (multi-)byte strings (DT_STR), if True, CHAR columns are exposed as wide strings (DT_WSTR)"
+                  expressionType="Notify"
+                  name="ExposeCharColumnsAsUnicode">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds to wait for an SQL statement to execute before returning to the application."
+                  expressionType="Notify"
+                  name="StatementTimeout">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The code page to use when code page information is unavailable from the data source."
+                  expressionType="Notify"
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Int32"
+                  description="The method used for fetching data."
+                  expressionType="Notify"
+                  name="FetchMethod">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="The ODBC C data type for binding numeric data."
+                  expressionType="Notify"
+                  name="BindNumericAs">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Determines how the component would bind columns of (multi)-byte string types (i.e., SQL_CHAR, SQL_VARCHAR, SQL_LONGVARCHAR). The options are: Unicode (SQL_C_WCHAR) and ANSI (SQL_C_CHAR)."
+                  expressionType="Notify"
+                  name="BindCharColumnsAs">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The mode used to access the database."
+                  expressionType="Notify"
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\SONX\MTAMGS.Connections[ODBCConnection]"
+                  description="The ODBC runtime connection used to access the database."
+                  name="ODBCConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\SONX\MTAMGS.Outputs[ODBC Source Output]"
+                  errorRowDisposition="FailComponent"
+                  name="ODBC Source Output"
+                  truncationRowDisposition="FailComponent">
+                  <externalMetadataColumns
+                    isUsed="True" />
+                </output>
+                <output
+                  refId="Package\SONX\MTAMGS.Outputs[ODBC Source Error Output]"
+                  isErrorOut="true"
+                  name="ODBC Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\SONX\MTAMGS.Outputs[ODBC Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\SONX\MTAMGS.Outputs[ODBC Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\SONX\MTAMGS.Outputs[ODBC Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\SONX\MTAMGS.Outputs[ODBC Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\SONX.Paths[Conditional Split Default Output]"
+              endId="Package\SONX\M-SON-LIST.Inputs[ODBC Destination Input]"
+              name="Conditional Split Default Output"
+              startId="Package\SONX\Conditional Split.Outputs[Conditional Split Default Output]" />
+            <path
+              refId="Package\SONX.Paths[ODBC Source Output]"
+              endId="Package\SONX\Conditional Split.Inputs[Conditional Split Input]"
+              name="ODBC Source Output"
+              startId="Package\SONX\MTAMGS.Outputs[ODBC Source Output]" />
+          </paths>
+        </pipeline>
       </DTS:ObjectData>
     </DTS:Executable>
   </DTS:Executables>
@@ -11597,10 +13082,6 @@
           Id="Package\MDG\MJ-MH-BS-I-S-B"
           TopLeft="747.999967813493,171.736840219627" />
         <NodeLayout
-          Size="114.666666666667,42.6666666666667"
-          Id="Package\MDG\MSB-G"
-          TopLeft="759.208304192251,317.842102476022" />
-        <NodeLayout
           Size="140,42.6666666666667"
           Id="Package\MDG\SortMHBSIS"
           TopLeft="588.208311568325,252.473681438415" />
@@ -11706,32 +13187,36 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <NodeLayout
+          Size="114.666666666667,42.6666666666667"
+          Id="Package\MDG\MSB-G"
+          TopLeft="763.208303745216,307.192979661492" />
         <EdgeLayout
           Id="Package\MDG.Paths[Merge Join Output4]"
           TopLeft="853.333301146826,214.403506886293">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-36.7916636212419,103.438595589728"
+              EndConnector="-32.7916640682768,92.7894727751984"
               Start="0,0"
-              End="-36.7916636212419,95.9385955897284">
+              End="-32.7916640682768,85.2894727751984">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,37.989924942365" />
+                    End="0,33.6670137008231" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,37.989924942365"
-                    Point2="0,41.989924942365"
-                    Point3="-4,41.989924942365" />
+                    Point1="0,33.6670137008231"
+                    Point2="0,37.6670137008231"
+                    Point3="-4,37.6670137008231" />
                   <mssgle:LineSegment
-                    End="-32.7916636212419,41.989924942365" />
+                    End="-28.7916640682768,37.6670137008231" />
                   <mssgle:CubicBezierSegment
-                    Point1="-32.7916636212419,41.989924942365"
-                    Point2="-36.7916636212419,41.989924942365"
-                    Point3="-36.7916636212419,45.989924942365" />
+                    Point1="-28.7916640682768,37.6670137008231"
+                    Point2="-32.7916640682768,37.6670137008231"
+                    Point3="-32.7916640682768,41.6670137008231" />
                   <mssgle:LineSegment
-                    End="-36.7916636212419,95.9385955897284" />
+                    End="-32.7916640682768,85.2894727751984" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -11808,10 +13293,6 @@
           Size="150.666666666667,42.6666666666667"
           Id="Package\MSG\ISN-MTN-MTV"
           TopLeft="786.499976724387,637.499991476536" />
-        <NodeLayout
-          Size="108,42.6666666666667"
-          Id="Package\MSG\MS-G"
-          TopLeft="1056.99996849895,632.666655997436" />
         <EdgeLayout
           Id="Package\MSG.Paths[ODBC Source Output]"
           TopLeft="273.999993562699,63.6666660408179">
@@ -12488,20 +13969,418 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <NodeLayout
+          Size="108,42.6666666666667"
+          Id="Package\MSG\MS-G"
+          TopLeft="1037.99996906519,633.666655967633" />
         <EdgeLayout
           Id="Package\MSG.Paths[Derived Column Output4]"
-          TopLeft="937.166643391054,656.416657070319">
+          TopLeft="937.166643391054,656.916657055418">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="119.833325107893,0"
+              EndConnector="100.833325674137,0"
               Start="0,0"
-              End="112.333325107893,0">
+              End="93.3333256741366,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="112.333325107893,0" />
+                    End="93.3333256741366,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <TaskHost
+    design-time-name="Package\SON">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="110.666666666667,42.6666666666667"
+          Id="Package\SON\MSGS"
+          TopLeft="105.999996840954,6.99999979138375" />
+        <NodeLayout
+          Size="112,42.6666666666667"
+          Id="Package\SON\MDGS"
+          TopLeft="341.999989807606,9.99999970197679" />
+        <NodeLayout
+          Size="106.666666666667,42.6666666666667"
+          Id="Package\SON\SortA"
+          TopLeft="139.499996006489,100.499997168779" />
+        <NodeLayout
+          Size="116,42.6666666666667"
+          Id="Package\SON\SortUM"
+          TopLeft="438.999986916781,218.999993473292" />
+        <NodeLayout
+          Size="204,42.6666666666667"
+          Id="Package\SON\MUSTERI-SEHIR-BOLGE"
+          TopLeft="346.999989658594,102.999996930361" />
+        <NodeLayout
+          Size="125.333333333334,42.6666666666667"
+          Id="Package\SON\MJ-MALL"
+          TopLeft="167.99999499321,214.999993592501" />
+        <NodeLayout
+          Size="132,42.6666666666667"
+          Id="Package\SON\Merge Join"
+          TopLeft="460.99998626113,323.999990344048" />
+        <NodeLayout
+          Size="104,42.6666666666667"
+          Id="Package\SON\MUS"
+          TopLeft="106.999996811152,320.999990433455" />
+        <NodeLayout
+          Size="122.666666666667,42.6666666666667"
+          Id="Package\SON\SortMUS"
+          TopLeft="268.999991983176,321.999990403652" />
+        <NodeLayout
+          Size="166.666666666667,42.6666666666667"
+          Id="Package\SON\ODBC Destination"
+          TopLeft="665.999980151654,321.999990403652" />
+        <EdgeLayout
+          Id="Package\SON.Paths[ODBC Source Output]"
+          TopLeft="161.333330174287,49.6666664580504">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="31.499999165535,50.833330710729"
+              Start="0,0"
+              End="31.499999165535,43.333330710729">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.4166653553645" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,21.4166653553645"
+                    Point2="0,25.4166653553645"
+                    Point3="4,25.4166653553645" />
+                  <mssgle:LineSegment
+                    End="27.499999165535,25.4166653553645" />
+                  <mssgle:CubicBezierSegment
+                    Point1="27.499999165535,25.4166653553645"
+                    Point2="31.499999165535,25.4166653553645"
+                    Point3="31.499999165535,29.4166653553645" />
+                  <mssgle:LineSegment
+                    End="31.499999165535,43.333330710729" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SON.Paths[Sort Output]"
+          TopLeft="192.833329339822,143.166663835446">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="37.8333323200544,71.8333297570547"
+              Start="0,0"
+              End="37.8333323200544,64.3333297570547">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.9166648785274" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.9166648785274"
+                    Point2="0,35.9166648785274"
+                    Point3="4,35.9166648785274" />
+                  <mssgle:LineSegment
+                    End="33.8333323200544,35.9166648785274" />
+                  <mssgle:CubicBezierSegment
+                    Point1="33.8333323200544,35.9166648785274"
+                    Point2="37.8333323200544,35.9166648785274"
+                    Point3="37.8333323200544,39.9166648785274" />
+                  <mssgle:LineSegment
+                    End="37.8333323200544,64.3333297570547" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SON.Paths[ODBC Source Output1]"
+          TopLeft="397.999989807606,52.6666663686435">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="50.9999998509883,50.3333305617174"
+              Start="0,0"
+              End="50.9999998509883,42.8333305617174">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.1666652808587" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,21.1666652808587"
+                    Point2="0,25.1666652808587"
+                    Point3="4,25.1666652808587" />
+                  <mssgle:LineSegment
+                    End="46.9999998509883,25.1666652808587" />
+                  <mssgle:CubicBezierSegment
+                    Point1="46.9999998509883,25.1666652808587"
+                    Point2="50.9999998509883,25.1666652808587"
+                    Point3="50.9999998509883,29.1666652808587" />
+                  <mssgle:LineSegment
+                    End="50.9999998509883,42.8333305617174" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SON.Paths[Conditional Split Default Output]"
+          TopLeft="448.999989658594,145.666663597028">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="47.9999972581865,73.333329876264"
+              Start="0,0"
+              End="47.9999972581865,65.833329876264">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.666664938132" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,32.666664938132"
+                    Point2="0,36.666664938132"
+                    Point3="4,36.666664938132" />
+                  <mssgle:LineSegment
+                    End="43.9999972581865,36.666664938132" />
+                  <mssgle:CubicBezierSegment
+                    Point1="43.9999972581865,36.666664938132"
+                    Point2="47.9999972581865,36.666664938132"
+                    Point3="47.9999972581865,40.666664938132" />
+                  <mssgle:LineSegment
+                    End="47.9999972581865,65.833329876264" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SON.Paths[Sort Output1]"
+          TopLeft="438.999986916781,238.33332686623">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-145.666658590238,0"
+              Start="0,0"
+              End="-138.166658590238,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-138.166658590238,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SON.Paths[ODBC Source Output2]"
+          TopLeft="210.999996811152,342.833323751887">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="57.9999951720239,0"
+              Start="0,0"
+              End="50.4999951720239,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="50.4999951720239,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SON.Paths[Sort Output2]"
+          TopLeft="391.666658649842,344.333323707183">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="69.3333276112877,0"
+              Start="0,0"
+              End="61.8333276112877,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="61.8333276112877,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SON.Paths[Merge Join Output]"
+          TopLeft="230.666661659877,257.666660259168">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="296.333324601253,66.3333300848803"
+              Start="0,0"
+              End="296.333324601253,58.8333300848803">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.1666650424401" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,29.1666650424401"
+                    Point2="0,33.1666650424401"
+                    Point3="4,33.1666650424401" />
+                  <mssgle:LineSegment
+                    End="292.333324601253,33.1666650424401" />
+                  <mssgle:CubicBezierSegment
+                    Point1="292.333324601253,33.1666650424401"
+                    Point2="296.333324601253,33.1666650424401"
+                    Point3="296.333324601253,37.1666650424401" />
+                  <mssgle:LineSegment
+                    End="296.333324601253,58.8333300848803" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SON.Paths[Merge Join Output1]"
+          TopLeft="592.99998626113,344.333323707183">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="72.9999938905239,0"
+              Start="0,0"
+              End="65.4999938905239,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="65.4999938905239,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <TaskHost
+    design-time-name="Package\SONX">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="141.333333333334,42.6666666666667"
+          Id="Package\SONX\M-SON-LIST"
+          TopLeft="411.999987721443,353.999989449978" />
+        <NodeLayout
+          Size="126.666666666667,42.6666666666667"
+          Id="Package\SONX\MTAMGS"
+          TopLeft="287.999991416931,33.9999989867211" />
+        <NodeLayout
+          Size="157.333333333334,42.6666666666667"
+          Id="Package\SONX\Conditional Split"
+          TopLeft="337.999989926815,178.999994665384" />
+        <EdgeLayout
+          Id="Package\SONX.Paths[Conditional Split Default Output]"
+          TopLeft="416.666656593482,221.666661332051">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="65.9999977946282,132.333328117927"
+              Start="0,0"
+              End="65.9999977946282,124.833328117927">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,62.1666640589636" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,62.1666640589636"
+                    Point2="0,66.1666640589636"
+                    Point3="4,66.1666640589636" />
+                  <mssgle:LineSegment
+                    End="61.9999977946282,66.1666640589636" />
+                  <mssgle:CubicBezierSegment
+                    Point1="61.9999977946282,66.1666640589636"
+                    Point2="65.9999977946282,66.1666640589636"
+                    Point3="65.9999977946282,70.1666640589636" />
+                  <mssgle:LineSegment
+                    End="65.9999977946282,124.833328117927" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SONX.Paths[ODBC Source Output]"
+          TopLeft="351.333324750265,76.6666656533878">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="65.3333318432172,102.333329011997"
+              Start="0,0"
+              End="65.3333318432172,94.8333290119967">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,47.1666645059983" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,47.1666645059983"
+                    Point2="0,51.1666645059983"
+                    Point3="4,51.1666645059983" />
+                  <mssgle:LineSegment
+                    End="61.3333318432172,51.1666645059983" />
+                  <mssgle:CubicBezierSegment
+                    Point1="61.3333318432172,51.1666645059983"
+                    Point2="65.3333318432172,51.1666645059983"
+                    Point3="65.3333318432172,55.1666645059983" />
+                  <mssgle:LineSegment
+                    End="65.3333318432172,94.8333290119967" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -12632,6 +14511,40 @@
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\MDG\BOLGE">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\SON\MUS">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\MSG\MS-G">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\MDG\MSB-G">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
